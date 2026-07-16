@@ -625,7 +625,7 @@ export default function App() {
               <Shield className="h-5 w-5 text-cyber-light" />
             </div>
             <div>
-              <span className="font-mono text-lg font-bold tracking-tight text-white">Neura<span className="text-cyber-light">auditAI</span></span>
+              <span className="font-mono text-sm sm:text-lg font-bold tracking-tight text-white">Neura<span className="text-cyber-light">auditAI</span></span>
               <span className="hidden sm:inline-block ml-2 text-[9px] uppercase tracking-widest bg-cyber-light/10 text-cyber-light px-1.5 py-0.5 rounded border border-cyber-light/20">Audit Engine</span>
             </div>
           </div>
@@ -638,7 +638,7 @@ export default function App() {
                     setViewMode("single");
                     setScanState("landing");
                   }}
-                  className={`text-xs font-mono px-3 py-1.5 rounded transition-all cursor-pointer ${
+                  className={`text-[10px] sm:text-xs font-mono px-2 py-1.5 sm:px-3 sm:py-1.5 rounded transition-all cursor-pointer ${
                     scanState === "landing" && viewMode === "single" ? "bg-cyber-light text-cyber-dark font-bold" : "text-cyber-gray hover:text-white"
                   }`}
                 >
@@ -649,7 +649,7 @@ export default function App() {
                     setViewMode("batch");
                     setScanState("landing");
                   }}
-                  className={`text-xs font-mono px-3 py-1.5 rounded transition-all cursor-pointer ${
+                  className={`text-[10px] sm:text-xs font-mono px-2 py-1.5 sm:px-3 sm:py-1.5 rounded transition-all cursor-pointer ${
                     scanState === "landing" && viewMode === "batch" ? "bg-cyber-light text-cyber-dark font-bold" : "text-cyber-gray hover:text-white"
                   }`}
                 >
@@ -660,7 +660,7 @@ export default function App() {
                     setViewMode("methodology");
                     setScanState("landing");
                   }}
-                  className={`text-xs font-mono px-3 py-1.5 rounded transition-all cursor-pointer ${
+                  className={`text-[10px] sm:text-xs font-mono px-2 py-1.5 sm:px-3 sm:py-1.5 rounded transition-all cursor-pointer ${
                     scanState === "landing" && viewMode === "methodology" ? "bg-cyber-light text-cyber-dark font-bold" : "text-cyber-gray hover:text-white"
                   }`}
                 >
@@ -708,7 +708,7 @@ export default function App() {
                     <label className="block text-xs font-mono uppercase text-cyber-light mb-2">
                       Enter Deployed App URL
                     </label>
-                    <div className="flex gap-2.5">
+                    <div className="flex flex-col sm:flex-row gap-2.5">
                       <div className="flex-grow bg-[#0b0c10]/95 border border-[#1f2833] rounded-lg flex items-center px-3 focus-within:border-cyber-light transition-all">
                         <Globe className="h-4.5 w-4.5 text-cyber-gray/50 shrink-0" />
                         <input 
@@ -725,7 +725,7 @@ export default function App() {
                       <button
                         onClick={() => setScanState("scanning")}
                         disabled={!url || !consent}
-                        className="bg-cyber-light hover:bg-cyber-teal text-cyber-dark font-semibold font-mono text-sm px-6 rounded-lg transition-all flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                        className="bg-cyber-light hover:bg-cyber-teal text-cyber-dark font-semibold font-mono text-sm px-6 py-2.5 sm:py-0 rounded-lg transition-all flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer w-full sm:w-auto"
                       >
                         Audit
                         <ArrowRight className="h-4 w-4" />
@@ -2101,7 +2101,7 @@ ${fixText}`;
         onClick={() => setExpanded(!expanded)}
         className="flex items-center justify-between p-4 cursor-pointer select-none"
       >
-        <div className="flex items-start gap-3 flex-grow min-w-0">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3 flex-grow min-w-0">
           <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded shrink-0 ${currentStyle.bg} ${currentStyle.text} border ${currentStyle.border} mt-0.5`}>
             {currentStyle.label}
           </span>
