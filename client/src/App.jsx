@@ -611,9 +611,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* Ambient background glows */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-cyber-light/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] rounded-full bg-[#8b5cf6]/5 blur-[150px] pointer-events-none" />
+      {/* Cybernetic grid scanner background */}
+      <div className="cyber-grid-container">
+        <div className="cyber-grid" />
+        <div className="cyber-scanner" />
+        <div className="cyber-glow-orb" />
+      </div>
 
       {/* Header */}
       <header className="border-b border-[#1f2833]/60 bg-[#0b0c10]/80 backdrop-blur-md sticky top-0 z-50">
