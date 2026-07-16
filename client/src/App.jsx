@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { 
   Shield, 
+  ShieldAlert,
   Lock, 
   Unlock, 
   AlertTriangle, 
@@ -57,6 +58,7 @@ export default function App() {
   const [scanResults, setScanResults] = useState(null);
   const [activeHistoryIndex, setActiveHistoryIndex] = useState(null);
   const [whyGradeExpanded, setWhyGradeExpanded] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
   // Reset history index when scanning starts
   useEffect(() => {
@@ -1989,16 +1991,75 @@ export default function App() {
       {/* Footer */}
       <footer className="border-t border-[#1f2833]/40 bg-[#0b0c10]/95 py-6">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] font-mono text-cyber-gray/40">
-          <span>&copy; {new Date().getFullYear()} NeuraauditAI. All scans are read-only and passive.</span>
+          <span>&copy; {new Date().getFullYear()} NeuraauditAI. A product of NeuratantraAI. All scans are read-only and passive.</span>
           <div className="flex gap-4">
-            <a href="#what-we-check" className="hover:underline hover:text-cyber-light">Privacy Policy</a>
-            <span>&bull;</span>
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:underline hover:text-cyber-light flex items-center gap-0.5">
-              GitHub <ExternalLink className="h-2 w-2" />
-            </a>
+            <button 
+              onClick={() => setShowPrivacyModal(true)} 
+              className="hover:underline hover:text-cyber-light cursor-pointer select-none outline-none border-none bg-transparent font-mono text-[10px] text-cyber-gray/40"
+            >
+              Privacy Policy
+            </button>
           </div>
         </div>
       </footer>
+      {/* Privacy Policy Modal */}
+      {showPrivacyModal && (
+        <div className="fixed inset-0 z-[100] bg-[#0b0c10]/90 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#0b0c10] border border-[#1f2833] rounded-xl max-w-lg w-full max-h-[80vh] flex flex-col p-6 overflow-hidden relative shadow-2xl glow-teal">
+            <div className="flex items-center justify-between border-b border-[#1f2833] pb-4 mb-4">
+              <div className="flex items-center gap-2 text-cyber-light">
+                <ShieldAlert className="h-5 w-5" />
+                <h3 className="font-mono text-sm font-bold uppercase tracking-wider">Privacy Policy</h3>
+              </div>
+              <button 
+                onClick={() => setShowPrivacyModal(false)} 
+                className="text-cyber-gray hover:text-white font-mono text-xs cursor-pointer select-none border-none bg-transparent outline-none"
+              >
+                [ ESC / CLOSE ]
+              </button>
+            </div>
+            
+            <div className="overflow-y-auto space-y-4 text-cyber-gray/80 text-[11px] font-mono pr-2 leading-relaxed">
+              <div>
+                <h4 className="text-white text-xs font-bold uppercase mb-1">// 1. Overview</h4>
+                <p>
+                  NeuraauditAI is a security audit engine developed by NeuratantraAI. All scans conducted by NeuraauditAI are purely passive, read-only, and external. We do not download code bases, breach private access keys, or perform active penetration tests.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="text-white text-xs font-bold uppercase mb-1">// 2. Scan Data Storage</h4>
+                <p>
+                  Audit results and configurations are stored securely inside our PostgreSQL database hosted on Supabase (with Row-Level Security enabled). Scan data is kept for up to 30 days to populate the scan history dashboard for users and is automatically pruned.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="text-white text-xs font-bold uppercase mb-1">// 3. User Consent & Authorization</h4>
+                <p>
+                  By executing any audit on our platform, you explicitly represent that you have authorization and consent to check the destination target URL. You agree that NeuraauditAI is not liable for scans performed on unauthorized domains.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="text-white text-xs font-bold uppercase mb-1">// 4. Artificial Intelligence Processing</h4>
+                <p>
+                  To generate natural language security explanations, scan findings are processed using Google Gemini models. No user account credentials, email addresses, or identifying client metadata are shared with third-party AI APIs during this query.
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t border-[#1f2833] pt-4 mt-4 flex justify-end">
+              <button 
+                onClick={() => setShowPrivacyModal(false)}
+                className="bg-cyber-light hover:bg-cyber-teal text-cyber-dark font-semibold font-mono text-xs px-5 py-2 rounded transition-all cursor-pointer border-none"
+              >
+                Acknowledge
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
