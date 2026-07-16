@@ -94,6 +94,59 @@ export default function App() {
   const [expandedProjectUrl, setExpandedProjectUrl] = useState(null);
   const [batchValidationErrors, setBatchValidationErrors] = useState([]);
 
+  // --- GLOBAL SCAN HISTORY ---
+  const [historyData, setHistoryData] = useState({ scans: [], batches: [] });
+  const [loadingHistory, setLoadingHistory] = useState(false);
+
+  const fetchHistory = async () => {
+    setLoadingHistory(true);
+    try {
+      const response = await fetch(`${API_BASE}/api/history`);
+      if (response.ok) {
+        const data = await response.json();
+        setHistoryData(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch history:", err);
+    } finally {
+      setLoadingHistory(false);
+    }
+  };
+
+  const handleLoadPastScan = (result) => {
+    setScanResults(result);
+    setScanState("results");
+    setUrl(result.url);
+    setConsent(true);
+  };
+
+  const handleLoadPastBatch = async (id) => {
+    setErrorMessage("");
+    setScanState("batch-scanning");
+    setBatchProgress(null);
+    setBatchId(id);
+    try {
+      const resultsRes = await fetch(`${API_BASE}/api/batch-scan/${id}`);
+      if (resultsRes.ok) {
+        const resultsData = await resultsRes.json();
+        setBatchResults(resultsData);
+        setScanState("batch-results");
+      } else {
+        setErrorMessage("Failed to load past batch findings.");
+        setScanState("error");
+      }
+    } catch (err) {
+      setErrorMessage("Failed to connect to batch scan endpoint.");
+      setScanState("error");
+    }
+  };
+
+  useEffect(() => {
+    if (scanState === "landing") {
+      fetchHistory();
+    }
+  }, [scanState]);
+
   const scanSteps = useMemo(() => [
     { name: "SSRF & Host Resolution Validation", key: "ssrf" },
     { name: "Checking SSL/TLS and HTTPS Redirects", key: "ssl" },
@@ -614,26 +667,6 @@ export default function App() {
                 </button>
               </div>
             )}
-
-            <button 
-              onClick={() => {
-                if (viewMode === "single" || viewMode === "methodology") {
-                  setViewMode("single");
-                  setUrl("http://localhost:3000/api/test-fixture/vulnerable");
-                  setConsent(true);
-                  setScanState("scanning");
-                } else {
-                  setUrlTextarea(
-                    "http://localhost:3000/api/test-fixture/vulnerable\nhttps://example.com\nhttps://google.com"
-                  );
-                  setBatchLabel("Local Demo Audit");
-                  setConsent(true);
-                }
-              }}
-              className="text-xs font-mono border border-amber-500/30 text-amber-500 bg-amber-500/5 hover:bg-amber-500/10 px-3 py-1.5 rounded transition-all"
-            >
-              Load Test Targets
-            </button>
           </div>
         </div>
       </header>
@@ -958,8 +991,8 @@ export default function App() {
                </div>
              )}
 
-            {viewMode === "history" && (
-              <div className="w-full max-w-4xl space-y-8">
+            {viewMode !== "methodology" && (
+              <div className="w-full max-w-4xl mt-16 pt-10 border-t border-[#1f2833]/40 space-y-8">
                 <div className="flex justify-between items-center border-b border-[#1f2833]/40 pb-4">
                   <h2 className="text-xl font-mono text-cyber-light font-bold flex items-center gap-2">
                     <Clock className="h-5 w-5" /> // Audit History Logs
@@ -1084,7 +1117,7 @@ export default function App() {
               </div>
             )}
 
-            {viewMode !== "history" && (
+            {viewMode !== "methodology" && (
               <>
             {/* Test Targets Hint */}
             <div className="mt-6 flex flex-wrap gap-2 items-center justify-center text-xs">
