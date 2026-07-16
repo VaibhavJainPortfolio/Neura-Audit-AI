@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-cyber-dark: #0b0c10;
+  --color-cyber-panel: #1f2833;
+  --color-cyber-gray: #c5c6c7;
+  --color-cyber-light: #66fcf1;
+  --color-cyber-teal: #45f3ff;
+  --color-cyber-green: #10b981;
+  --color-cyber-orange: #f59e0b;
+  --color-cyber-red: #ef4444;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-cyber-dark);
+    background-image: 
+      linear-gradient(rgba(18, 24, 38, 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(18, 24, 38, 0.5) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center;
+  }
+}
+
+/* Custom terminal scanline animation */
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.3)
+  );
+  background-size: 100% 4px;
+}
+
+/* Custom glowing effects */
+.glow-teal {
+  box-shadow: 0 0 15px rgba(102, 252, 241, 0.25);
+}
+
+.glow-red {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.25);
+}
+
+.glow-green {
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.8s infinite ease-in-out;
+}
