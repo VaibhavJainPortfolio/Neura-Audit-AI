@@ -481,6 +481,15 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
+app.get("/api/history", async (req, res) => {
+  try {
+    const history = await db.getAllHistory();
+    return res.json(history);
+  } catch (err) {
+    return res.status(500).json({ error: `Failed to fetch history: ${err.message}` });
+  }
+});
+
 app.get("/api/health", (req, res) => {
   res.json({ status: "healthy", timestamp: new Date().toISOString() });
 });

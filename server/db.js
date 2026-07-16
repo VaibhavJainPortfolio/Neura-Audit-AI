@@ -140,6 +140,42 @@ async function saveAiExplanation(key, value) {
   });
 }
 
+async function getAllHistory() {
+  const db = await readDb();
+  
+  // Format scans history list (retrieve latest run for each url)
+  const scansList = [];
+  if (db.scans) {
+    for (const [url, history] of Object.entries(db.scans)) {
+      if (Array.isArray(history) && history.length > 0) {
+        scansList.push({
+          url,
+          latestResult: history[0].result,
+          timestamp: history[0].timestamp,
+          historyCount: history.length
+        });
+      }
+    }
+  }
+
+  // Format batches history list
+  const batchesList = [];
+  if (db.batches) {
+    for (const [batchId, batch] of Object.entries(db.batches)) {
+      batchesList.push(batch);
+    }
+  }
+
+  // Sort lists (newest first)
+  scansList.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  batchesList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  return {
+    scans: scansList,
+    batches: batchesList
+  };
+}
+
 module.exports = {
   initDb,
   saveScan,
@@ -151,4 +187,5 @@ module.exports = {
   cleanupOldRecords,
   getAiExplanation,
   saveAiExplanation,
+  getAllHistory,
 };

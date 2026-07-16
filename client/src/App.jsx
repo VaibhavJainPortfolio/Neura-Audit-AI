@@ -958,6 +958,134 @@ export default function App() {
                </div>
              )}
 
+            {viewMode === "history" && (
+              <div className="w-full max-w-4xl space-y-8">
+                <div className="flex justify-between items-center border-b border-[#1f2833]/40 pb-4">
+                  <h2 className="text-xl font-mono text-cyber-light font-bold flex items-center gap-2">
+                    <Clock className="h-5 w-5" /> // Audit History Logs
+                  </h2>
+                  <button
+                    onClick={fetchHistory}
+                    disabled={loadingHistory}
+                    className="flex items-center gap-1.5 text-xs font-mono text-cyber-light hover:text-white bg-cyber-light/5 border border-cyber-light/20 px-3 py-1.5 rounded transition-all cursor-pointer"
+                  >
+                    <RefreshCw className={`h-3 w-3 ${loadingHistory ? "animate-spin" : ""}`} />
+                    Refresh Logs
+                  </button>
+                </div>
+
+                {loadingHistory ? (
+                  <div className="flex flex-col items-center py-16">
+                    <RefreshCw className="h-8 w-8 text-cyber-light animate-spin mb-3" />
+                    <p className="text-sm font-mono text-cyber-gray/60">Retrieving audit history...</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    {/* Left Column: Individual Audits */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <h3 className="font-mono text-xs uppercase text-cyber-light font-semibold tracking-wider">// Individual Audits ({historyData.scans.length})</h3>
+                      </div>
+                      
+                      {historyData.scans.length === 0 ? (
+                        <div className="bg-[#1f2833]/10 border border-[#1f2833]/30 rounded-xl p-8 text-center">
+                          <Globe className="h-8 w-8 text-cyber-gray/40 mx-auto mb-3" />
+                          <p className="text-xs text-cyber-gray/60">No individual scan records found.</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                          {historyData.scans.map((scan, idx) => {
+                            const gradeColor = 
+                              scan.latestResult.grade === "A" ? "text-[#10b981] border-[#10b981]/20 bg-[#10b981]/5" :
+                              scan.latestResult.grade === "B" ? "text-[#66fcf1] border-[#66fcf1]/20 bg-[#66fcf1]/5" :
+                              scan.latestResult.grade === "C" ? "text-[#f59e0b] border-[#f59e0b]/20 bg-[#f59e0b]/5" :
+                              "text-[#ef4444] border-[#ef4444]/20 bg-[#ef4444]/5";
+
+                            return (
+                              <div key={idx} className="bg-[#1f2833]/20 border border-[#1f2833]/50 rounded-lg p-4 hover:border-cyber-light/40 transition-all flex items-center justify-between gap-4">
+                                <div className="min-w-0">
+                                  <div className="text-xs font-semibold text-white truncate" title={scan.url}>
+                                    {scan.url}
+                                  </div>
+                                  <div className="text-[10px] text-cyber-gray/50 font-mono mt-1">
+                                    Scanned: {new Date(scan.timestamp).toLocaleString()} ({scan.historyCount} run{scan.historyCount > 1 ? "s" : ""})
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-3 shrink-0">
+                                  <span className={`h-8 w-8 rounded-full border flex items-center justify-center font-bold text-sm ${gradeColor}`}>
+                                    {scan.latestResult.grade || "F"}
+                                  </span>
+                                  <button
+                                    onClick={() => handleLoadPastScan(scan.latestResult)}
+                                    className="p-1.5 rounded bg-cyber-light/10 text-cyber-light hover:bg-cyber-light hover:text-cyber-dark transition-all cursor-pointer flex items-center justify-center"
+                                    title="View Report"
+                                  >
+                                    <ArrowRight className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Right Column: Batch Audits */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <h3 className="font-mono text-xs uppercase text-cyber-light font-semibold tracking-wider">// Batch Audits ({historyData.batches.length})</h3>
+                      </div>
+                      
+                      {historyData.batches.length === 0 ? (
+                        <div className="bg-[#1f2833]/10 border border-[#1f2833]/30 rounded-xl p-8 text-center">
+                          <Grid className="h-8 w-8 text-cyber-gray/40 mx-auto mb-3" />
+                          <p className="text-xs text-cyber-gray/60">No batch scan records found.</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                          {historyData.batches.map((batch, idx) => {
+                            const statusColor = 
+                              batch.status === "completed" ? "text-cyber-green bg-cyber-green/5 border-cyber-green/20" :
+                              batch.status === "failed" ? "text-cyber-red bg-cyber-red/5 border-cyber-red/20" :
+                              "text-cyber-orange bg-cyber-orange/5 border-cyber-orange/20";
+
+                            return (
+                              <div key={idx} className="bg-[#1f2833]/20 border border-[#1f2833]/50 rounded-lg p-4 hover:border-cyber-light/40 transition-all flex items-center justify-between gap-4">
+                                <div className="min-w-0">
+                                  <div className="text-xs font-semibold text-white truncate">
+                                    {batch.label || "Unnamed Batch"}
+                                  </div>
+                                  <div className="text-[10px] text-cyber-gray/50 font-mono mt-1">
+                                    Created: {new Date(batch.createdAt).toLocaleString()} | {batch.total} URL{batch.total > 1 ? "s" : ""}
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-3 shrink-0">
+                                  <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded border ${statusColor}`}>
+                                    {batch.status}
+                                  </span>
+                                  <button
+                                    onClick={() => handleLoadPastBatch(batch.batchId)}
+                                    className="p-1.5 rounded bg-cyber-light/10 text-cyber-light hover:bg-cyber-light hover:text-cyber-dark transition-all cursor-pointer flex items-center justify-center"
+                                    title="View Batch Report"
+                                  >
+                                    <ArrowRight className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+                )}
+              </div>
+            )}
+
+            {viewMode !== "history" && (
+              <>
             {/* Test Targets Hint */}
             <div className="mt-6 flex flex-wrap gap-2 items-center justify-center text-xs">
               <span className="text-cyber-gray/50 font-mono">// Safe test sites:</span>
@@ -1023,6 +1151,8 @@ export default function App() {
                 </div>
               </div>
             </section>
+              </>
+            )}
 
           </div>
         )}
