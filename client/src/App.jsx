@@ -26,7 +26,8 @@ import {
   BookOpen,
   Server,
   Key,
-  Brain
+  Brain,
+  Clock
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import Papa from "papaparse";
