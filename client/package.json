@@ -1,7 +1,7 @@
 {
-  "name": "campusshield-client",
+  "name": "neuraauditai-client",
   "version": "1.0.0",
-  "description": "Frontend UI for CampusShield Scanner",
+  "description": "Frontend UI for NeuraauditAI Scanner",
   "main": "index.html",
   "type": "module",
   "scripts": {

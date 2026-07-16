@@ -486,5 +486,5 @@ app.get("/api/health", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`CampusShield Server listening on port ${PORT}`);
+  console.log(`NeuraauditAI Server listening on port ${PORT}`);
 });

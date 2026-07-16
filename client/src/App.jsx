@@ -547,7 +547,7 @@ export default function App() {
     const urlStr = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", urlStr);
-    link.setAttribute("download", `campusshield_batch_${batchResults.batchId}_summary.csv`);
+    link.setAttribute("download", `neuraauditai_batch_${batchResults.batchId}_summary.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -571,7 +571,7 @@ export default function App() {
               <Shield className="h-5 w-5 text-cyber-light" />
             </div>
             <div>
-              <span className="font-mono text-lg font-bold tracking-tight text-white">Campus<span className="text-cyber-light">Shield</span></span>
+              <span className="font-mono text-lg font-bold tracking-tight text-white">Neura<span className="text-cyber-light">auditAI</span></span>
               <span className="hidden sm:inline-block ml-2 text-[9px] uppercase tracking-widest bg-cyber-light/10 text-cyber-light px-1.5 py-0.5 rounded border border-cyber-light/20">Audit Engine</span>
             </div>
           </div>
@@ -829,7 +829,7 @@ export default function App() {
                 
                 <h2 className="text-xl font-mono text-cyber-light font-bold mb-4">// Scan Methodology & Rulesets</h2>
                 <p className="text-sm text-cyber-gray mb-8">
-                  CampusShield runs passive, non-intrusive audits by examining HTTP response headers, probing configuration endpoints, and analyzing client script bundles. Below is the detailed breakdown of the vulnerabilities we check for.
+                  NeuraauditAI runs passive, non-intrusive audits by examining HTTP response headers, probing configuration endpoints, and analyzing client script bundles. Below is the detailed breakdown of the vulnerabilities we check for.
                 </p>
 
                 <div className="space-y-6">
@@ -988,7 +988,7 @@ export default function App() {
             <section id="what-we-check" className="w-full mt-20 pt-10 border-t border-[#1f2833]/40">
               <div className="text-center mb-8">
                 <h2 className="font-mono text-sm uppercase text-cyber-light tracking-wider">// Deep-Scan Capabilities</h2>
-                <p className="text-lg font-bold text-white mt-1">What CampusShield Analyzes Passively</p>
+                <p className="text-lg font-bold text-white mt-1">What NeuraauditAI Analyzes Passively</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -1475,7 +1475,7 @@ export default function App() {
                   <CheckCircle className="h-12 w-12 text-[#10b981] mb-3" />
                   <h3 className="text-base font-bold text-white">No Vulnerabilities Detected</h3>
                   <p className="text-xs text-cyber-gray/70 mt-1 max-w-md">
-                    CampusShield didn't find any exposed keys, open databases, or missing security headers. Your project is looking clean and ready for demo day!
+                    NeuraauditAI didn't find any exposed keys, open databases, or missing security headers. Your project is looking clean and ready for demo day!
                   </p>
                 </div>
               ) : (
@@ -1825,7 +1825,7 @@ export default function App() {
       {/* Footer */}
       <footer className="border-t border-[#1f2833]/40 bg-[#0b0c10]/95 py-6">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] font-mono text-cyber-gray/40">
-          <span>&copy; {new Date().getFullYear()} CampusShield. All scans are read-only and passive.</span>
+          <span>&copy; {new Date().getFullYear()} NeuraauditAI. All scans are read-only and passive.</span>
           <div className="flex gap-4">
             <a href="#what-we-check" className="hover:underline hover:text-cyber-light">Privacy Policy</a>
             <span>&bull;</span>

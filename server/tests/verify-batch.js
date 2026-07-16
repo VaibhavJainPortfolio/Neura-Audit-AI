@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 async function runVerification() {
-  console.log("=== CampusShield Batch Scan API Verification ===");
+  console.log("=== NeuraauditAI Batch Scan API Verification ===");
 
   // Test 1: Verify SSRF validation in batch scan (Should fail)
   console.log("\n[Test 1] Testing SSRF rejection for batch scan...");

@@ -1,7 +1,7 @@
 {
-  "name": "campusshield-server",
+  "name": "neuraauditai-server",
   "version": "1.0.0",
-  "description": "Backend scanning engine for CampusShield",
+  "description": "Backend scanning engine for NeuraauditAI",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {

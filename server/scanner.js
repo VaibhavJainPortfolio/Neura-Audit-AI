@@ -6,7 +6,7 @@ const http = require("http");
 const ipaddr = require("ipaddr.js");
 const { URL } = require("url");
 
-const USER_AGENT = "CampusShield-Scanner/1.0 (+https://campusshield.app)";
+const USER_AGENT = "NeuraauditAI-Scanner/1.0 (+https://neuraauditai.app)";
 const REQUEST_TIMEOUT = 30000; // 30 seconds
 
 // Check if an IP address is in a restricted range (SSRF check)
